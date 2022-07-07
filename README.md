@@ -14,6 +14,8 @@ Python 3.7
 Django 2.2.16
 Django REST 3.12.4
 
+
+
 #Как запустить проект:
 Клонировать репозиторий и перейти в него в командной строке:
 
@@ -34,22 +36,49 @@ python3 manage.py migrate
 
 python3 manage.py runserver
 
+
+
 #Запуск с помощью Doker
 #Описание команд для запуска приложения в контейнерах:
+
 Установить Doker:
 Вся информация по установке Doker на сайте https://docs.docker.com/
+
 Через консоль перейти в каталог приложения infra:
 cd infra/
+
+Обратите внимание на файл .env с секретными данными:
+SECRET_KEY = <серетный ключ Джанго>
+DB_NAME = <имя базы данных>
+POSTGRES_USER = <имя пользователя базы данных>
+POSTGRES_PASSWORD = <пароль от базы данных>
+DB_PORT = <номер порта>
+
 Собрать и запустить все сервисы командой:
 docker-compose up -d
+
 Подготовить и запустить миграции:
 docker-compose exec web python manage.py makemigrations
 docker-compose exec web python manage.py migrate
+
 Создать администратора:
 docker-compose exec web python manage.py createsuperuser
+
 Готово!
 Сайт запущен по адресу localhost в адресной строке браузера
+
 Ознакомиться с пользовательскими командами можно по ссылке localhost\redoc\
+
+Загрузить тестовые данные можно предварительно скопируя их в контейнер:
+docker cp ./fixtures.json infra_web_1:/app
+docker-compose exec web python manage.py loaddata fixtures.json
+
 Остановить сервисы можно командой:
 docker-compose stop
+
+Автор проекта:
+Алферов Антон email: anton.alferov@icloud.com
+
+
+
 
